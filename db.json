@@ -1,0 +1,40 @@
+{
+  "messages": [
+    {
+      "role": "user",
+      "content": "Hello my name is harsh, and i live in India.",
+      "id": "01949314-d845-7000-94a5-aba1c0f15fb3",
+      "createdAt": "2025-01-23T12:13:24.421Z"
+    },
+    {
+      "role": "assistant",
+      "content": "Hello Harsh.",
+      "id": "01949314-d845-7000-94a5-aba1c0f15fb9",
+      "createdAt": "2025-01-23T12:17:24.421Z"
+    },
+    {
+      "role": "user",
+      "content": "what do u know about me",
+      "id": "01949335-8d65-7000-9adb-a4f0bbc9d356",
+      "createdAt": "2025-01-23T12:49:07.941Z"
+    },
+    {
+      "content": "It's nice to meet you.  Namaste!\n",
+      "role": "assistant",
+      "id": "01949335-9914-7000-90bc-c398e61d29a1",
+      "createdAt": "2025-01-23T12:49:10.932Z"
+    },
+    {
+      "role": "user",
+      "content": "what do u know about me my information like name or country",
+      "id": "01949335-d640-7000-aeeb-344ef28b40ff",
+      "createdAt": "2025-01-23T12:49:26.592Z"
+    },
+    {
+      "content": "Based on our conversation so far, I know your name is Harsh and you live in India.  That's all I know for certain.  I have no access to personal information about you beyond what you've explicitly told me in our current conversation.\n",
+      "role": "assistant",
+      "id": "01949335-e1e2-7000-a85b-d9ab4c4ee853",
+      "createdAt": "2025-01-23T12:49:29.570Z"
+    }
+  ]
+}
