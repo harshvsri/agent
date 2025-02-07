@@ -1,13 +1,15 @@
-import { addMessages, getMessages } from "./src/db";
+import { addMessagesToDB, getMessagesFromDB, resetDB } from "./src/db";
 import { runLLM } from "./src/llm";
 
-const userPrompt = process.argv[2];
+const userPrompt = process.argv.slice(2).join(" ");
 if (!userPrompt) {
-  console.log("No prompt given.\nUsage <tool> <prompt>");
-  process.exit(1);
+    console.log("No prompt given.\nUsage <tool> <prompt>");
+    process.exit(1);
 }
 
-addMessages([{ role: "user", content: userPrompt }]);
-const history = await getMessages();
+
+await resetDB();
+await addMessagesToDB([{ role: "user", content: userPrompt }]);
+const history = await getMessagesFromDB();
 
 await runLLM(history);
