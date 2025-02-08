@@ -1,6 +1,6 @@
+import { randomUUIDv7 } from "bun";
 import { JSONFilePreset } from "lowdb/node";
-import { addMetadata, removeMetadata, } from "./metadata";
-import type { History, Message } from "./types";
+import { metaPrompt, type History, type Message, type MessageWithMetadata } from "./types";
 
 export const getDB = async () => {
     const defaultData: History = {
@@ -15,10 +15,9 @@ export const resetDB = async () => {
     const db = await getDB();
     db.data.messages = [];
 
-    const file = Bun.file("prompt.txt");
     const systemMessage: Message = {
         role: "system",
-        content: await file.text()
+        content: metaPrompt
     }
     db.data.messages.push(addMetadata(systemMessage));
     await db.write();
@@ -38,3 +37,15 @@ export const getMessagesFromDB = async (): Promise<Message[]> => {
     const messages = db.data.messages.map(removeMetadata);
     return messages;
 }
+
+// Metadata methods.
+const addMetadata = (message: Message): MessageWithMetadata => ({
+    ...message,
+    id: randomUUIDv7(),
+    createdAt: new Date().toISOString(),
+});
+
+const removeMetadata = (message: MessageWithMetadata): Message => {
+    const { id, createdAt, ...aiMessage } = message;
+    return aiMessage;
+};

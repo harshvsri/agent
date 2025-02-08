@@ -3,13 +3,14 @@ let frameIndex = 0;
 let spinnerInterval: Timer | number | null = null;
 
 // Start the spinner animation
-export function startSpinner() {
+export function startSpinner(info: string) {
     if (spinnerInterval !== null) {
         clearInterval(spinnerInterval);
-    }
+    };
+    frameIndex = 0;
     spinnerInterval = setInterval(() => {
         process.stdout.write(
-            new TextEncoder().encode(`\r${spinnerFrames[frameIndex++ % spinnerFrames.length]} Thinking...`),
+            `\r${spinnerFrames[frameIndex++ % spinnerFrames.length]} ${info}`,
         );
     }, 100);
 }
@@ -19,6 +20,8 @@ export function stopSpinner() {
     if (spinnerInterval !== null) {
         clearInterval(spinnerInterval);
         spinnerInterval = null;
-        process.stdout.write(new TextEncoder().encode("\r"));
+
+        // Clears out the terminal completely.
+        process.stdout.write("\r\x1b[K");
     }
 }

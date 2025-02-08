@@ -1,5 +1,6 @@
-import { addMessagesToDB, getMessagesFromDB, resetDB } from "./src/db";
+import { addMessagesToDB, resetDB } from "./src/db";
 import { runLLM } from "./src/llm";
+import { tools } from "./src/tools/tools";
 
 const userPrompt = process.argv.slice(2).join(" ");
 if (!userPrompt) {
@@ -7,9 +8,8 @@ if (!userPrompt) {
     process.exit(1);
 }
 
-
+// Avoid resetting db if want persisted memory/context.
 await resetDB();
 await addMessagesToDB([{ role: "user", content: userPrompt }]);
-const history = await getMessagesFromDB();
 
-await runLLM(history);
+await runLLM(tools);
