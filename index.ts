@@ -1,15 +1,18 @@
 import { addMessagesToDB, resetDB } from "./src/db";
 import { runLLM } from "./src/llm";
+import { getUserPrompt } from "./src/prompt";
 import { tools } from "./src/tools/tools";
 
-const userPrompt = process.argv.slice(2).join(" ");
-if (!userPrompt) {
-    console.log("No prompt given.\nUsage <tool> <prompt>");
-    process.exit(1);
+let running = true;
+
+process.on("SIGINT", async () => {
+    console.log(" Quitting...");
+    running = false;
+    await resetDB();
+    process.exit();
+});
+
+while (running) {
+    await addMessagesToDB([{ role: "user", content: await getUserPrompt() }]);
+    await runLLM(tools);
 }
-
-// Avoid resetting db if want persisted memory/context.
-await resetDB();
-await addMessagesToDB([{ role: "user", content: userPrompt }]);
-
-await runLLM(tools);
